@@ -4024,7 +4024,7 @@
         Returns true if the data appears to be a FLVER.
       </summary>
     </member>
-    <member name="M:SoulsFormats.FLVER.Read(SoulsFormats.BinaryReaderEx)">
+    <member name="M:SoulsFormats.FLVER2.Read(SoulsFormats.BinaryReaderEx)">
       <summary>
         Reads FLVER data from a BinaryReaderEx.
       </summary>
@@ -4482,178 +4482,178 @@
         Creates a new VertexBuffer with the specified layout index, buffer index 0, and vertex size -1.
       </summary>
     </member>
-    <member name="T:SoulsFormats.FLVER.BufferLayout">
+    <member name="T:SoulsFormats.FLVER2.BufferLayout">
       <summary>
         Determines which properties of a vertex are read and written, and in what order and format.
       </summary>
     </member>
-    <member name="P:SoulsFormats.FLVER.BufferLayout.Size">
+    <member name="P:SoulsFormats.FLVER2.BufferLayout.Size">
       <summary>
         The total size of all ValueTypes in this layout.
       </summary>
     </member>
-    <member name="M:SoulsFormats.FLVER.BufferLayout.#ctor">
+    <member name="M:SoulsFormats.FLVER2.BufferLayout.#ctor">
       <summary>
         Creates a new empty BufferLayout.
       </summary>
     </member>
-    <member name="T:SoulsFormats.FLVER.BufferLayout.Member">
+    <member name="T:SoulsFormats.FLVER2.BufferLayout.Member">
       <summary>
         Represents one property of a vertex.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.Member.Unk00">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.Member.Unk00">
       <summary>
         Unknown.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.Member.StructOffset">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.Member.StructOffset">
       <summary>
         Offset of this member from the start of a vertex struct.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.Member.Type">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.Member.Type">
       <summary>
         Format used to store this member.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.Member.Semantic">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.Member.Semantic">
       <summary>
         Vertex property being stored.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.Member.Index">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.Member.Index">
       <summary>
         For semantics that may appear more than once such as UVs, which one this member is.
       </summary>
     </member>
-    <member name="P:SoulsFormats.FLVER.BufferLayout.Member.Size">
+    <member name="P:SoulsFormats.FLVER2.BufferLayout.Member.Size">
       <summary>
         The size of this member's ValueType, in bytes.
       </summary>
     </member>
     <member
-      name="M:SoulsFormats.FLVER.BufferLayout.Member.#ctor(System.Int32,System.Int32,SoulsFormats.FLVER.BufferLayout.MemberType,SoulsFormats.FLVER.BufferLayout.MemberSemantic,System.Int32)">
+      name="M:SoulsFormats.FLVER2.BufferLayout.Member.#ctor(System.Int32,System.Int32,SoulsFormats.FLVER2.BufferLayout.MemberType,SoulsFormats.FLVER2.BufferLayout.MemberSemantic,System.Int32)">
       <summary>
         Creates a new Member with the specified values.
       </summary>
     </member>
-    <member name="M:SoulsFormats.FLVER.BufferLayout.Member.ToString">
+    <member name="M:SoulsFormats.FLVER2.BufferLayout.Member.ToString">
       <summary>
         Returns the value type and semantic of this member.
       </summary>
     </member>
-    <member name="T:SoulsFormats.FLVER.BufferLayout.MemberType">
+    <member name="T:SoulsFormats.FLVER2.BufferLayout.MemberType">
       <summary>
         Format of a vertex property.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.MemberType.Float2">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.MemberType.Float2">
       <summary>
         Two single-precision floats.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.MemberType.Float3">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.MemberType.Float3">
       <summary>
         Three single-precision floats.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.MemberType.Float4">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.MemberType.Float4">
       <summary>
         Four single-precision floats.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.MemberType.Byte4A">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.MemberType.Byte4A">
       <summary>
         Unknown.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.MemberType.Byte4B">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.MemberType.Byte4B">
       <summary>
         Four bytes.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.MemberType.Short2toFloat2">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.MemberType.Short2toFloat2">
       <summary>
         Two shorts?
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.MemberType.Byte4C">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.MemberType.Byte4C">
       <summary>
         Four bytes.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.MemberType.UV">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.MemberType.UV">
       <summary>
         Two shorts.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.MemberType.UVPair">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.MemberType.UVPair">
       <summary>
         Two shorts and two shorts.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.MemberType.ShortBoneIndices">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.MemberType.ShortBoneIndices">
       <summary>
         Four shorts, maybe unsigned?
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.MemberType.Short4toFloat4A">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.MemberType.Short4toFloat4A">
       <summary>
         Four shorts.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.MemberType.Short4toFloat4B">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.MemberType.Short4toFloat4B">
       <summary>
         Unknown.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.MemberType.Byte4E">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.MemberType.Byte4E">
       <summary>
         Unknown.
       </summary>
     </member>
-    <member name="T:SoulsFormats.FLVER.BufferLayout.MemberSemantic">
+    <member name="T:SoulsFormats.FLVER2.BufferLayout.MemberSemantic">
       <summary>
         Property of a vertex.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.MemberSemantic.Position">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.MemberSemantic.Position">
       <summary>
         Where the vertex is.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.MemberSemantic.BoneWeights">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.MemberSemantic.BoneWeights">
       <summary>
         Weight of the vertex's attachment to bones.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.MemberSemantic.BoneIndices">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.MemberSemantic.BoneIndices">
       <summary>
         Bones the vertex is weighted to, indexing the parent mesh's bone indices.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.MemberSemantic.Normal">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.MemberSemantic.Normal">
       <summary>
         Orientation of the vertex.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.MemberSemantic.UV">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.MemberSemantic.UV">
       <summary>
         Texture coordinates of the vertex.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.MemberSemantic.Tangent">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.MemberSemantic.Tangent">
       <summary>
         Unknown.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.MemberSemantic.UnknownVector4A">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.MemberSemantic.UnknownVector4A">
       <summary>
         Unknown.
       </summary>
     </member>
-    <member name="F:SoulsFormats.FLVER.BufferLayout.MemberSemantic.VertexColor">
+    <member name="F:SoulsFormats.FLVER2.BufferLayout.MemberSemantic.VertexColor">
       <summary>
         Color of the vertex (if untextured?)
       </summary>
