@@ -45,8 +45,8 @@ namespace FLVER_Editor
         public static FLVER2 flver2;
         public static List<FLVER2> undoFlverList = new List<FLVER2>();
         public static List<FLVER2> redoFlverList = new List<FLVER2>();
-        public static List<decimal[]> undoNumBoxValuesList = new List<decimal[]>();
-        public static List<decimal[]> redoNumBoxValuesList = new List<decimal[]>();
+        public static int currUndoFlverListIndex = -1;
+        public static int currRedoFlverListIndex = -1;
         public static int currUndoListIndex = -1;
         public static int currRedoListIndex = -1;
         public static FLVER2 maleBodyFlver = new FLVER2();
@@ -71,9 +71,10 @@ namespace FLVER_Editor
         private static Dictionary<object, object> dummyPresets;
         public static RotationOrder rotOrder = RotationOrder.YZX;
         public static readonly string rootFolderPath = Path.GetDirectoryName(Application.ExecutablePath);
-        private static readonly string materialPresetsFilePath = $"{rootFolderPath}/mpresets.json";
-        private static readonly string dummyPresetsFilePath = $"{rootFolderPath}/dpresets.json";
-        private static readonly string userConfigJsonPath = $"{rootFolderPath}/userconfig.json";
+        public static readonly string resourceFolderPath = $"{rootFolderPath}\\Resources";
+        private static readonly string materialPresetsFilePath = $"{rootFolderPath}\\mpresets.json";
+        private static readonly string dummyPresetsFilePath = $"{rootFolderPath}\\dpresets.json";
+        private static readonly string userConfigJsonPath = $"{rootFolderPath}\\userconfig.json";
         public static JObject userConfigJson = new JObject();
         private static int currMaterialsTableSplitDistance;
         private static string currAutoSaveInterval;
@@ -139,8 +140,8 @@ namespace FLVER_Editor
 
         private static void ImportBodyModels()
         {
-            Program.ImportFBX($"{rootFolderPath}\\malebody.obj", true);
-            Program.ImportFBX($"{rootFolderPath}\\femalebody.obj", false, true);
+            Program.ImportFBX($"{resourceFolderPath}\\model\\malebody.obj", true);
+            Program.ImportFBX($"{resourceFolderPath}\\model\\femalebody.obj", false, true);
             ApplyBodyModelMaterial(maleBodyFlver);
             ApplyBodyModelMaterial(femaleBodyFlver);
         }
@@ -2579,104 +2580,49 @@ namespace FLVER_Editor
             Redo();
         }
 
-        private void UpdateNumBoxValuesList(ref List<decimal[]> numBoxValuesList, bool wantsTags)
-        {
-            List<decimal> numBoxValues;
-            if (wantsTags)
-            {
-                numBoxValues = new List<decimal>
-                {
-                    decimal.Parse(transXNumBox.Tag.ToString()),
-                    decimal.Parse(transYNumBox.Tag.ToString()),
-                    decimal.Parse(transZNumBox.Tag.ToString()),
-                    decimal.Parse(scaleXNumBox.Tag.ToString()),
-                    decimal.Parse(scaleYNumBox.Tag.ToString()),
-                    decimal.Parse(scaleZNumBox.Tag.ToString()),
-                    decimal.Parse(rotXNumBox.Tag.ToString()),
-                    decimal.Parse(rotYNumBox.Tag.ToString()),
-                    decimal.Parse(rotZNumBox.Tag.ToString())
-                };
-            }
-            else
-            {
-                numBoxValues = new List<decimal>
-                {
-                    transXNumBox.Value,
-                    transYNumBox.Value,
-                    transZNumBox.Value,
-                    scaleXNumBox.Value,
-                    scaleYNumBox.Value,
-                    scaleZNumBox.Value,
-                    rotXNumBox.Value,
-                    rotYNumBox.Value,
-                    rotZNumBox.Value
-                };
-            }
-            numBoxValuesList.Add(numBoxValues.ToArray());
-        }
-
         private void UpdateUndoState(bool clearAllRedoActions = true)
         {
             if (clearAllRedoActions)
             {
                 redoFlverList.Clear();
-                redoNumBoxValuesList.Clear();
-                currRedoListIndex = -1;
+                currRedoFlverListIndex = -1;
                 redoToolStripMenuItem.Enabled = false;
             }
             undoToolStripMenuItem.Enabled = true;
             undoFlverList.Add(FLVER2.Read(flver2.Write()));
-            UpdateNumBoxValuesList(ref undoNumBoxValuesList, true);
-            currUndoListIndex++;
+            currUndoFlverListIndex++;
         }
 
         private void UpdateRedoState()
         {
             redoToolStripMenuItem.Enabled = true;
             redoFlverList.Add(FLVER2.Read(flver2.Write()));
-            UpdateNumBoxValuesList(ref redoNumBoxValuesList, false);
-            currRedoListIndex++;
+            currRedoFlverListIndex++;
         }
 
-        private void UpdateNumBoxValuesFromList(IReadOnlyList<decimal> numBoxValuesList)
-        {
-            isSettingDefaultInfo = true;
-            transXNumBox.Tag = transXNumBox.Value = numBoxValuesList[0];
-            transYNumBox.Tag = transYNumBox.Value = numBoxValuesList[1];
-            transZNumBox.Tag = transZNumBox.Value = numBoxValuesList[2];
-            scaleXNumBox.Tag = scaleXNumBox.Value = numBoxValuesList[3];
-            scaleYNumBox.Tag = scaleYNumBox.Value = numBoxValuesList[4];
-            scaleZNumBox.Tag = scaleZNumBox.Value = numBoxValuesList[5];
-            rotXNumBox.Tag = rotXNumBox.Value = numBoxValuesList[6];
-            rotYNumBox.Tag = rotYNumBox.Value = numBoxValuesList[7];
-            rotZNumBox.Tag = rotZNumBox.Value = numBoxValuesList[8];
-            isSettingDefaultInfo = false;
-        }
         private void Undo()
         {
-            if (currUndoListIndex < 0) return;
+            if (currUndoFlverListIndex < 0) return;
             UpdateRedoState();
-            flver2 = FLVER2.Read(undoFlverList[currUndoListIndex].Write());
-            UpdateNumBoxValuesFromList(undoNumBoxValuesList[currUndoListIndex]);
-            undoFlverList.RemoveAt(currUndoListIndex);
-            currUndoListIndex--;
+            flver2 = FLVER2.Read(undoFlverList[currUndoFlverListIndex].Write());
+            undoFlverList.RemoveAt(currUndoFlverListIndex);
+            currUndoFlverListIndex--;
             UpdateUI();
             UpdateMesh();
-            if (currUndoListIndex != -1) return;
+            if (currUndoFlverListIndex != -1) return;
             undoToolStripMenuItem.Enabled = false;
         }
 
         private void Redo()
         {
-            if (currRedoListIndex < 0) return;
+            if (currRedoFlverListIndex < 0) return;
             UpdateUndoState(false);
-            flver2 = FLVER2.Read(redoFlverList[currRedoListIndex].Write());
-            UpdateNumBoxValuesFromList(redoNumBoxValuesList[currRedoListIndex]);
-            redoFlverList.RemoveAt(currRedoListIndex);
-            currRedoListIndex--;
+            flver2 = FLVER2.Read(redoFlverList[currRedoFlverListIndex].Write());
+            redoFlverList.RemoveAt(currRedoFlverListIndex);
+            currRedoFlverListIndex--;
             UpdateUI();
             UpdateMesh();
-            if (currRedoListIndex != -1) return;
+            if (currRedoFlverListIndex != -1) return;
             redoToolStripMenuItem.Enabled = false;
         }
 
@@ -2684,10 +2630,8 @@ namespace FLVER_Editor
         {
             undoFlverList.Clear();
             redoFlverList.Clear();
-            undoNumBoxValuesList.Clear();
-            redoNumBoxValuesList.Clear();
-            currUndoListIndex = -1;
-            currRedoListIndex = -1;
+            currUndoFlverListIndex = -1;
+            currRedoFlverListIndex = -1;
             undoToolStripMenuItem.Enabled = false;
             redoToolStripMenuItem.Enabled = false;
         }

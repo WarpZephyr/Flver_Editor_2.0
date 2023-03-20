@@ -350,11 +350,11 @@ namespace FLVER_Editor
                 return;
             }
             RefreshTextures();
-            using (Stream stream = TitleContainer.OpenStream("singleColor.png"))
+            using (Stream stream = TitleContainer.OpenStream($"singleColor.png"))
             {
                 testTexture = Texture2D.FromStream(GraphicsDevice, stream);
             }
-            var bgFileStream = new FileStream($"{MainWindow.rootFolderPath}\\bg.png", FileMode.Open);
+            var bgFileStream = new FileStream($"{MainWindow.resourceFolderPath}\\image\\bg.png", FileMode.Open);
             bgTexture = Texture2D.FromStream(GraphicsDevice, bgFileStream);
             bgFileStream.Close();
             viewerFont = Content.Load<SpriteFont>("Segoe UI");
